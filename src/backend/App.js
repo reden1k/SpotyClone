@@ -1,18 +1,23 @@
 import {Server} from "./Server.js"
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'node:path';
-//Server.start();
+// Server.start();
+let subWindow;
+
 function createWindow () {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    const win = new BrowserWindow({
+    width: 1280,
+    height: 720,
     sandbox: true,
+    resizable: false,
+    icon: path.join(process.cwd(), '/src/frontend/source/logo.png'),
     webPreferences: {
         preload: path.join(process.cwd(), '/dist/bundle.js')
       }
   })
   console.log(path.join(process.cwd(), 'src/frontend/index.js'))
   win.loadFile('src/frontend/index.html')
+  // win.setMenu(null) deleting default menu
 }
 
 app.whenReady().then(() => {
@@ -30,4 +35,23 @@ app.on('window-all-closed', () => {
     app.quit()
   }
 })
+
+ipcMain.on('open-auth-window', (event, url) => {
+  if (!subWindow || subWindow.isDestroyed()) {
+      subWindow = new BrowserWindow({ width: 600, height: 400, nativeWindowOpen: true, nodeIntegration: true });
+      subWindow.loadURL(url);
+      subWindow.on('closed', () => {
+          subWindow = null;
+      });
+      subWindow.setMenu(null)
+      
+      shell.openExternal(url)
+
+      subWindow.webContents.on('did-finish-load', () => {
+        // Получаем URL загруженной страницы
+        const loadedURL = subWindow.webContents.getURL();
+        console.log('URL загруженной страницы:', loadedURL);
+    });
+  }
+});
 

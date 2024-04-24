@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+  target: 'electron-main',
   entry: './src/frontend/index.js',
   output: {
     filename: 'bundle.js', 
