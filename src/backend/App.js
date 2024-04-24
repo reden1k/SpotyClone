@@ -4,8 +4,10 @@ import path from 'node:path';
 //Server.start();
 function createWindow () {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 512,
+    height: 1024,
+    resizable: false,
+    icon: 'src/frontend/source/icon.png',
     sandbox: true,
     webPreferences: {
         preload: path.join(process.cwd(), '/dist/bundle.js')
