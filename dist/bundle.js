@@ -1,0 +1,1 @@
+(()=>{"use strict";window.addEventListener("DOMContentLoaded",(()=>{const e=document.querySelector(".auth-button");e&&e.addEventListener("click",(()=>{e.remove()}))}))})();
