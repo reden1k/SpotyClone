@@ -13,12 +13,10 @@ export class Server {
     static server;
 
     static start() {
-        this.app.use('/',express.static('dist'));
-
         this.server = this.app.listen(this.port, () => {
             console.log(`Server started at ${this.port} port`);
         })
-        open('http://localhost:8080');
+        // open('http://localhost:8080');
     }
 
     static close() {

@@ -9,17 +9,11 @@ export class Authorization {
     static TOKEN_URL = 'https://accounts.spotify.com/authorize';
 
     static getAuthorizationCode() {
-        //TODO Here should be part with redirect (do it on java)!
-        console.log('ITS WORKING!')
-        open(this.REDIRECT_URI)
-        const currentUrl = window.location.href;
-        console.log(currentUrl)
-        const urlParams = new URLSearchParams(new URL(currentUrl).search);
-
-        const authorizationCode = urlParams.get('code');
-
-        console.log(authorizationCode);
-        return authorizationCode;
+        const encodedRedirectURI = encodeURIComponent(this.REDIRECT_URI);
+        const scope = encodeURIComponent("user-read-private user-read-email playlist-read-private user-library-read playlist-modify-public playlist-modify-private");
+        const url = `${this.AUTH_URL}?client_id=${this.CLIENT_ID}&response_type=code&redirect_uri=${encodedRedirectURI}&scope=${scope}`;
+       
+        return url;
     }
 
     static getAccessAndRefreshTokens(authCode) {
