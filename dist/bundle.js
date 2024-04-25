@@ -1,0 +1,1 @@
+(()=>{"use strict";window.addEventListener("DOMContentLoaded",(()=>{document.querySelector(".auth-button").addEventListener("click",(()=>{document.querySelector(".auth-button").classList.toggle("active"),document.querySelector(".auth").classList.toggle("active"),document.querySelector(".logo").classList.toggle("upper")}))}))})();
