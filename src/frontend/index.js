@@ -17,4 +17,3 @@ window.addEventListener('DOMContentLoaded', () => {
       console.log(Authorization.getAuthorizationCode())
       ipcRenderer.send('open-auth-window', (e, Authorization.getAuthorizationCode()));
     })
-});
