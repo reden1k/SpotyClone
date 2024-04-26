@@ -1,7 +1,8 @@
 import {Server} from "./Server.js"
 import {app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'node:path';
-// Server.start();
+
+let link;
 let subWindow;
 
 function createWindow () {
@@ -32,26 +33,28 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    Server.close()
     app.quit()
   }
 })
 
 ipcMain.on('open-auth-window', (event, url) => {
-  if (!subWindow || subWindow.isDestroyed()) {
-      subWindow = new BrowserWindow({ width: 600, height: 400, nativeWindowOpen: true, nodeIntegration: true });
-      subWindow.loadURL(url);
-      subWindow.on('closed', () => {
-          subWindow = null;
-      });
-      subWindow.setMenu(null)
+  // if (!subWindow || subWindow.isDestroyed()) {
+  //     subWindow = new BrowserWindow({ width: 600, height: 400, nativeWindowOpen: true, nodeIntegration: true });
+  //     subWindow.loadURL(url);
+  //     subWindow.on('closed', () => {
+  //         subWindow = null;
+  //     });
+  //     subWindow.setMenu(null)
       
-      shell.openExternal(url)
+  //     shell.openExternal(url)
 
-      subWindow.webContents.on('did-finish-load', () => {
-        // Получаем URL загруженной страницы
-        const loadedURL = subWindow.webContents.getURL();
-        console.log('URL загруженной страницы:', loadedURL);
-    });
-  }
+  //     subWindow.webContents.on('did-finish-load', () => {
+  //       // Получаем URL загруженной страницы
+  //       const loadedURL = subWindow.webContents.getURL();
+  //       console.log('URL загруженной страницы:', loadedURL);
+  //   });
+  // }
+  Server.start(url)
 });
 
