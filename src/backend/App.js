@@ -11,7 +11,7 @@ function createWindow () {
     height: 720,
     sandbox: true,
     resizable: false,
-    icon: path.join(process.cwd(), '/src/frontend/source/logo.png'),
+    icon: path.join(process.cwd(), '/src/frontend/source/icon.png'),
     webPreferences: {
         preload: path.join(process.cwd(), '/dist/bundle.js')
       }
