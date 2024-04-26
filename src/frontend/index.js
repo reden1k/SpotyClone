@@ -16,5 +16,5 @@ window.addEventListener('DOMContentLoaded', () => {
     authButton.addEventListener('click', (e) => {
       console.log(Authorization.getAuthorizationCode())
       ipcRenderer.send('open-auth-window', (e, Authorization.getAuthorizationCode()));
-    })
-});
+  })
+
