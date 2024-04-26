@@ -7,6 +7,7 @@ export class Authorization {
     static REDIRECT_URI = 'http://localhost:8080';
     static AUTH_URL = 'https://accounts.spotify.com/authorize';
     static TOKEN_URL = 'https://accounts.spotify.com/authorize';
+    static code;
 
     static getLink() {
         return window.location.href;
@@ -19,11 +20,37 @@ export class Authorization {
         return url
     }
 
-    static getAccessAndRefreshTokens(authCode) {
-        const encoded = atob(authCode);
+    static getAuthCode(url) {
+        return url.substring(url.indexOf("?code=") + 6)
     }
+
+    static async requestAccessAndRefreshTokens(authCode) {
+        const encodedCredentials = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`).toString('base64');
+        const url = this.TOKEN_URL;
+        const postData = new URLSearchParams({
+            'grant_type': 'authorization_code',
+            'code': authCode,
+            'redirect_uri': encodeURIComponent(this.REDIRECT_URI)
+        });
+    
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Basic ${encodedCredentials}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: postData
+        });
+    
+        if (!response.ok) {
+            throw new Error(`Failed to request access and refresh tokens: ${response.status} ${response.statusText}`);
+        }
+    
+        const jsonResponse = await response.json();
+        const accessToken = jsonResponse.access_token;
+        const refreshToken = jsonResponse.refresh_token;
+    
+        return [accessToken, refreshToken];
+    }
+
 }
-
-
-
-
