@@ -1,12 +1,28 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   target: 'electron-main',
-  entry: './src/frontend/index.js',
+  entry: './local/index.js',
   output: {
     filename: 'bundle.js', 
-    path: path.resolve(__dirname, 'dist'), 
+    path: path.resolve(__dirname, 'distLocal'), 
   },
+  // module: {
+  //   rules: [
+  //     {
+  //       test: /\.css$/,
+  //       include: path.resolve(__dirname, 'local'),
+  //       use: ['style-loader', 'css-loader']
+  //     }
+  //   ]
+  // },
+  // plugins: [
+  //   new HtmlWebpackPlugin({
+  //     template: './src/index.html',
+  //     filename: 'index.html' 
+  //   })
+  // ],
   resolve: {
     fallback: {
       "util": require.resolve("util/"),

@@ -3,20 +3,17 @@ import axios from 'axios';
 import open from 'open';
 import path from 'path';
 
-const frontendPath = path.resolve(process.cwd(), 'frontend')
-const backendPath = path.resolve(process.cwd(), 'backend')
-console.log(frontendPath)
-
 export class Server {
     static app = express();
     static port = 8080;
     static server;
 
-    static start() {
+    static start(link) {
+        this.app.use(express.static('distLocal'))
         this.server = this.app.listen(this.port, () => {
             console.log(`Server started at ${this.port} port`);
         })
-        // open('http://localhost:8080');
+        open(link);
     }
 
     static close() {
