@@ -1,7 +1,5 @@
 import express from 'express';
-import axios from 'axios';
 import open from 'open';
-import path from 'path';
 
 export class Server {
     static app = express();
@@ -17,8 +15,10 @@ export class Server {
     }
 
     static close() {
-        this.server.close(() => {
-            console.log(`Server closed!`);
-        })
+        if (this.server) {
+            this.server.close(() => {
+                console.log(`Server closed!`);
+            })
+        }
     }
 }
