@@ -11,10 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
       div.classList.toggle('active');
       const img = document.querySelector('.logo');
       img.classList.toggle('upper')
-    })
-  });
-    const authButton = document.querySelector('.auth-button');
-    authButton.addEventListener('click', (e) => {
       console.log(Authorization.getAuthorizationUrl())
       ipcRenderer.send('open-auth-window', (e, Authorization.getAuthorizationUrl()));
     })
+  });

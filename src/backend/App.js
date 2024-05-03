@@ -1,9 +1,7 @@
 import {Server} from "./Server.js"
 import {app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'node:path';
-
-let link;
-let subWindow;
+import { Authorization } from "./Authorization.js";
 
 function createWindow () {
     const win = new BrowserWindow({
@@ -13,6 +11,7 @@ function createWindow () {
     resizable: false,
     icon: path.join(process.cwd(), '/src/frontend/source/icon.png'),
     webPreferences: {
+        // nodeIntegration: true, for work with browser (idk how working/not working)
         preload: path.join(process.cwd(), '/dist/bundle.js')
       }
   })
@@ -57,4 +56,8 @@ ipcMain.on('open-auth-window', (event, url) => {
   // }
   Server.start(url)
 });
+
+ipcMain.on('send-code-for-auth', (e, code) => {
+  Authorization.requestAccessAndRefreshTokens(code)
+})
 

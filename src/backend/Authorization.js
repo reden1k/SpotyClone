@@ -1,12 +1,9 @@
-import axios from 'axios';
-import open from 'open';
-
 export class Authorization {
     static CLIENT_ID = 'cb18dd90851c4cdbb12c12905aa51e30';
     static CLIENT_SECRET = 'b6ebc17b8a454eb3b5f2cf75fb48f5e1';
     static REDIRECT_URI = 'http://localhost:8080';
     static AUTH_URL = 'https://accounts.spotify.com/authorize';
-    static TOKEN_URL = 'https://accounts.spotify.com/authorize';
+    static TOKEN_URL = 'https://accounts.spotify.com/api/token';
     static code;
 
     static getLink() {
@@ -25,14 +22,9 @@ export class Authorization {
     }
 
     static async requestAccessAndRefreshTokens(authCode) {
-        const encodedCredentials = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`).toString('base64');
-        const url = this.TOKEN_URL;
-        const postData = new URLSearchParams({
-            'grant_type': 'authorization_code',
-            'code': authCode,
-            'redirect_uri': encodeURIComponent(this.REDIRECT_URI)
-        });
-    
+        const encodedCredentials = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`);
+        const url = new URL(this.TOKEN_URL)
+        const postData = `grant_type=client_credentials&code=${authCode}&redirect_uri=${encodeURIComponent(this.REDIRECT_URI)}`;
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -43,14 +35,12 @@ export class Authorization {
         });
     
         if (!response.ok) {
-            throw new Error(`Failed to request access and refresh tokens: ${response.status} ${response.statusText}`);
+            throw new Error(`Failed to request access and refresh tokens: ${response.status} ${response.statusText} ${postData}`);
         }
     
         const jsonResponse = await response.json();
         const accessToken = jsonResponse.access_token;
         const refreshToken = jsonResponse.refresh_token;
-    
         return [accessToken, refreshToken];
     }
-
 }
