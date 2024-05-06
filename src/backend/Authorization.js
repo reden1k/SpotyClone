@@ -40,7 +40,29 @@ export class Authorization {
     
         const jsonResponse = await response.json();
         const accessToken = jsonResponse.access_token;
-        const refreshToken = jsonResponse.refresh_token;
-        return [accessToken, refreshToken];
+        console.log(jsonResponse)
+        return accessToken;
+    }
+
+    static sendToken(accessToken) { // функция используется в браузере для отправки токена в приложение через socket
+        fetch('/receiveAuthCode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: accessToken })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log('Response from server:', data);
+        })
+        .catch(error => {
+            console.error('There was a problem with your fetch operation:', error);
+        });
     }
 }

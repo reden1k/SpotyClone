@@ -3,9 +3,7 @@ import { ipcRenderer, shell } from 'electron';
 
 window.addEventListener('DOMContentLoaded', () => {
   const authButton = document.querySelector('.auth-button');
-    authButton.addEventListener('click', (e) => {
-
-      const authButton = document.querySelector('.auth-button');
+      authButton.addEventListener('click', (e) => {
       authButton.classList.toggle('active');
       const div = document.querySelector('.auth');
       div.classList.toggle('active');
@@ -14,4 +12,4 @@ window.addEventListener('DOMContentLoaded', () => {
       console.log(Authorization.getAuthorizationUrl())
       ipcRenderer.send('open-auth-window', (e, Authorization.getAuthorizationUrl()));
     })
-  });
+});
