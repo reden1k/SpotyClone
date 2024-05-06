@@ -1,28 +1,33 @@
 import {Server} from "./Server.js"
 import {app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'node:path';
-import { Authorization } from "./Authorization.js";
+import { io as socketIOClient } from 'socket.io-client';
+import execute from './Executor.js'
+
+let win;
+const socket = socketIOClient('http://localhost:3000');
 
 function createWindow () {
-    const win = new BrowserWindow({
+    win = new BrowserWindow({
     width: 1280,
     height: 720,
     sandbox: true,
     resizable: false,
-    icon: path.join(process.cwd(), '/src/frontend/source/icon.png'),
+    icon: path.join(process.cwd(), '/dist/source/icon.png'),
     webPreferences: {
-        // nodeIntegration: true, for work with browser (idk how working/not working)
-        preload: path.join(process.cwd(), '/dist/bundle.js')
+      nodeIntegration: true,
+      contextIsolation: false,
+      enableRemoteModule: true,
+        // preload: path.join(process.cwd(), '/dist/bundle.js')
       }
   })
   console.log(path.join(process.cwd(), 'src/frontend/index.js'))
-  win.loadFile('src/frontend/index.html')
+  win.loadFile(path.join(process.cwd(), '/dist/index.html'))
   // win.setMenu(null) deleting default menu
 }
 
 app.whenReady().then(() => {
   createWindow()
-
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow()
@@ -33,31 +38,19 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     Server.close()
+    socket.close()
     app.quit()
   }
 })
 
 ipcMain.on('open-auth-window', (event, url) => {
-  // if (!subWindow || subWindow.isDestroyed()) {
-  //     subWindow = new BrowserWindow({ width: 600, height: 400, nativeWindowOpen: true, nodeIntegration: true });
-  //     subWindow.loadURL(url);
-  //     subWindow.on('closed', () => {
-  //         subWindow = null;
-  //     });
-  //     subWindow.setMenu(null)
-      
-  //     shell.openExternal(url)
-
-  //     subWindow.webContents.on('did-finish-load', () => {
-  //       // Получаем URL загруженной страницы
-  //       const loadedURL = subWindow.webContents.getURL();
-  //       console.log('URL загруженной страницы:', loadedURL);
-  //   });
-  // }
   Server.start(url)
 });
 
-ipcMain.on('send-code-for-auth', (e, code) => {
-  Authorization.requestAccessAndRefreshTokens(code)
-})
+socket.on('auth-code', (accessToken) => {
+  const token = accessToken.accessToken
+  console.log('Token:', token.trim())
+  execute(token);
+});
+
 

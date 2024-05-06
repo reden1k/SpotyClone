@@ -1,17 +1,20 @@
 import { Authorization } from '../backend/Authorization.js';
-// import { ipcRenderer } from 'electron';
-// import ipcRender and send commands, handle it in app!
 
 window.addEventListener('DOMContentLoaded', () => {
   const button = document.querySelector('.button-auth');
+  const link = Authorization.getLink();
+  const code = Authorization.getAuthCode(link);
+  let token;
+  Authorization.requestAccessAndRefreshTokens(code)
+  .then((result) => {
+    token = result;
+  })
+  .catch((e) => {
+    console.error('Error in Promise: ', e);
+  })
+
   button.addEventListener('click', () => {
-    //mb tyt classtoggle
-    const link = Authorization.getLink() // Получить ссылку и вывести ее отсюда
-    const code = Authorization.getAuthCode(link)
-    // ipcRenderer.send('send-code-for-auth', (null, code));
-    console.log(Authorization.requestAccessAndRefreshTokens(code))
-    console.log(link);
-    console.log(code);
+    Authorization.sendToken(token);
   })
 })
   

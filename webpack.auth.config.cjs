@@ -10,7 +10,7 @@ module.exports = [
     target: 'electron-main',
     entry: './src/auth/index.js',
     output: {
-      filename: 'bundle.js',
+      filename: 'bundleAuth.js',
       path: path.resolve(__dirname, 'distLocal'), //auth
     },
     module: {
