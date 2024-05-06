@@ -1,5 +1,5 @@
-import { Authorization } from '../backend/Authorization.js';
-import { ipcRenderer, shell } from 'electron';
+// import { Authorization } from '../backend/Authorization.js';
+// import { ipcRenderer, shell } from 'electron';
 
 window.addEventListener('DOMContentLoaded', () => {
   const authButton = document.querySelector('.auth-button');
@@ -18,3 +18,8 @@ window.addEventListener('DOMContentLoaded', () => {
       console.log(Authorization.getAuthorizationCode())
       ipcRenderer.send('open-auth-window', (e, Authorization.getAuthorizationCode()));
     })
+
+    function toggleAnimation() {
+      var button = document.querySelector('.button-auth');
+      button.classList.toggle('animation-active');
+    }
