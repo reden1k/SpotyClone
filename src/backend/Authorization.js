@@ -24,7 +24,7 @@ export class Authorization {
     static async requestAccessAndRefreshTokens(authCode) {
         const encodedCredentials = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`);
         const url = new URL(this.TOKEN_URL)
-        const postData = `grant_type=client_credentials&code=${authCode}&redirect_uri=${encodeURIComponent(this.REDIRECT_URI)}`;
+        const postData = `grant_type=authorization_code&client_credentials&code=${authCode}&redirect_uri=${encodeURIComponent(this.REDIRECT_URI)}`;
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -35,7 +35,7 @@ export class Authorization {
         });
     
         if (!response.ok) {
-            throw new Error(`Failed to request access and refresh tokens: ${response.status} ${response.statusText} ${postData}`);
+            throw new Error(`Failed to request access and refresh tokens: ${response.status} ${response.statusText}`);
         }
     
         const jsonResponse = await response.json();

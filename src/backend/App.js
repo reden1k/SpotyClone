@@ -1,11 +1,11 @@
 import {Server} from "./Server.js"
 import {app, BrowserWindow, ipcMain, shell } from 'electron';
 import path from 'node:path';
-import { io as socketIOClient } from 'socket.io-client';
 import execute from './Executor.js'
+import * as WebSocket from "ws";
 
 let win;
-const socket = socketIOClient('http://localhost:3000');
+const wss = new WebSocket.WebSocketServer({port: 3000});
 
 function createWindow () {
     win = new BrowserWindow({
@@ -38,7 +38,7 @@ app.whenReady().then(() => {
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     Server.close()
-    socket.close()
+    wss.close()
     app.quit()
   }
 })
@@ -47,10 +47,13 @@ ipcMain.on('open-auth-window', (event, url) => {
   Server.start(url)
 });
 
-socket.on('auth-code', (accessToken) => {
-  const token = accessToken.accessToken
-  console.log('Token:', token.trim())
-  execute(token);
-});
+wss.on('connection', (socket) => {
+  console.log('Socket connected!');
 
+  socket.on('message', (event) => {
+    const token = JSON.parse(event.toString('utf8')).accessToken;
+    console.log(`Token: ${token}`);
+    execute(token);
+  })
+})
 

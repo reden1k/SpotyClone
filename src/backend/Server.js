@@ -1,7 +1,7 @@
 import express from 'express';
 import open from 'open';
-import { createServer } from 'http'
 import { Server as SocketIOServer } from 'socket.io';
+import WebSocket from 'ws';
 
 export class Server {
     static app = express();
@@ -44,12 +44,12 @@ export class Server {
     }
 
     static sendTokensToApp(token) {
-        const io = new SocketIOServer(3000);
+        const socket = new WebSocket('ws://localhost:3000');
 
-        io.on('connection', (socket) => {
-            console.log('Client connected!')
-            socket.emit('auth-code', { accessToken: token })
-        })
+        socket.onopen = () => {
+            socket.send(JSON.stringify({ accessToken: token }))
+            socket.close();
+        };
     }
 }
 
