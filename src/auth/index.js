@@ -1,25 +1,20 @@
-// import { Authorization } from '../backend/Authorization.js';
-// import { ipcRenderer, shell } from 'electron';
+import { Authorization } from '../backend/Authorization.js';
 
-// window.addEventListener('DOMContentLoaded', () => {
-//   const authButton = document.querySelector('.auth-button');
-//     authButton.addEventListener('click', () => {
-//       const authButton = document.querySelector('.auth-button');
-//       authButton.classList.toggle('active');
-//       const div = document.querySelector('.auth');
-//       div.classList.toggle('active');
-//       const img = document.querySelector('.icon');
-//       img.classList.toggle('upper')
-//     })
-//   });
-  //   const authButton = document.querySelector('.auth-button');
-  //   authButton.addEventListener('click', (e) => {
-  //     console.log(Authorization.getAuthorizationCode())
-  //     ipcRenderer.send('open-auth-window', (e, Authorization.getAuthorizationCode()));
-  // })
+window.addEventListener('DOMContentLoaded', () => {
+  const button = document.querySelector('.button-auth');
+  const link = Authorization.getLink();
+  const code = Authorization.getAuthCode(link);
+  let token;
+  Authorization.requestAccessAndRefreshTokens(code)
+  .then((result) => {
+    token = result;
+  })
+  .catch((e) => {
+    console.error('Error in Promise: ', e);
+  })
 
-  function toggleAnimation() {
-    var button = document.querySelector('.button-auth');
-    button.classList.toggle('animation-active');
-  }
+  button.addEventListener('click', () => {
+    Authorization.sendToken(token);
+  })
+})
   

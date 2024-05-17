@@ -1,12 +1,10 @@
-import axios from 'axios';
-import open from 'open';
-
 export class Authorization {
     static CLIENT_ID = 'cb18dd90851c4cdbb12c12905aa51e30';
     static CLIENT_SECRET = 'b6ebc17b8a454eb3b5f2cf75fb48f5e1';
     static REDIRECT_URI = 'http://localhost:8080';
     static AUTH_URL = 'https://accounts.spotify.com/authorize';
-    static TOKEN_URL = 'https://accounts.spotify.com/authorize';
+    static TOKEN_URL = 'https://accounts.spotify.com/api/token';
+    static code;
 
     static getLink() {
         return window.location.href;
@@ -19,11 +17,52 @@ export class Authorization {
         return url
     }
 
-    static getAccessAndRefreshTokens(authCode) {
-        const encoded = atob(authCode);
+    static getAuthCode(url) {
+        return url.substring(url.indexOf("?code=") + 6)
+    }
+
+    static async requestAccessAndRefreshTokens(authCode) {
+        const encodedCredentials = btoa(`${this.CLIENT_ID}:${this.CLIENT_SECRET}`);
+        const url = new URL(this.TOKEN_URL)
+        const postData = `grant_type=client_credentials&code=${authCode}&redirect_uri=${encodeURIComponent(this.REDIRECT_URI)}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Basic ${encodedCredentials}`,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: postData
+        });
+    
+        if (!response.ok) {
+            throw new Error(`Failed to request access and refresh tokens: ${response.status} ${response.statusText} ${postData}`);
+        }
+    
+        const jsonResponse = await response.json();
+        const accessToken = jsonResponse.access_token;
+        console.log(jsonResponse)
+        return accessToken;
+    }
+
+    static sendToken(accessToken) { // функция используется в браузере для отправки токена в приложение через socket
+        fetch('/receiveAuthCode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token: accessToken })
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            console.log('Response from server:', data);
+        })
+        .catch(error => {
+            console.error('There was a problem with your fetch operation:', error);
+        });
     }
 }
-
-
-
-
