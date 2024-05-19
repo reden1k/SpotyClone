@@ -8,8 +8,8 @@ window.addEventListener('DOMContentLoaded', () => {
       const div = document.querySelector('.auth');
       div.classList.toggle('active');
       const img = document.querySelector('.logo');
-      img.classList.toggle('upper')
-      console.log(Authorization.getAuthorizationUrl())
+      img.classList.toggle('upper');
+      console.log(Authorization.getAuthorizationUrl());
       ipcRenderer.send('open-auth-window', (e, Authorization.getAuthorizationUrl()));
     })
 });

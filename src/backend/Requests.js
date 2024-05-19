@@ -1,11 +1,5 @@
 import endpoint from "./Endpoints.js";
-import { getItems, replaceOffset, replacePlaylistId, replaceUserId } from "./Parser.js";
-
-// const playlistTemplate = {
-//     name: 'SpotyClone',
-//     description: 'SpotyClone',
-//     public: true
-// }
+import { getItems, replaceOffset, replacePlaylistId } from "./Parser.js";
 
 export async function getAllPlaylists(totalPlaylistsCount, token) { //for send request and optimizing code i can use this function like a callback inside HTTP func.
     let offset = 0;
@@ -46,10 +40,6 @@ export async function getAllCreatedPlaylistSongs(totalSongsCount, token, playlis
     return songs;
 }
 
-// export function isCreated(playlists) {
-//     return !playlists.every((p) => p.description !== 'SpotyClone');
-// }
-
 export async function addAllTracks(totalSongsCount, songs, playlistId, token) {
     let from = 0;
     let endPoint = replacePlaylistId(endpoint.addSongs, playlistId);
@@ -70,10 +60,6 @@ export async function removeAllTracks(totalSongsCount, createdPlaylistSongs, pla
         from += 100;
     }
 }
-
-// export function createPlaylist(token, userId) {
-//     HTTP('POST', replaceUserId(endpoint.createPlaylist, userId), token, playlistTemplate);
-// }
 
 export async function HTTP(method, endpoint, token, data = null) {
     let result;
@@ -150,15 +136,3 @@ function getTracks(array, from, to) {
     }
     return tracks;
 }
-
-// export function getCreatedPlaylistId(playlists) {
-//     let i = 0;
-//     while(i <= playlists.length) {
-//         const playlist = playlists[i]
-//         if (playlist.name === 'SpotyClone' || playlist.description === 'SpotyClone') {
-//             return playlist.id;
-//         }
-//         console.log(`No such playlist`)
-//         return null;
-//     }
-// }

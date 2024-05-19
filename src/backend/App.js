@@ -12,7 +12,7 @@ function createWindow () {
     width: 1280,
     height: 720,
     sandbox: true,
-    resizable: false,
+    resizable: true,
     icon: path.join(process.cwd(), '/dist/source/icon.png'),
     webPreferences: {
       nodeIntegration: true,
