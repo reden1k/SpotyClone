@@ -20,12 +20,11 @@ function toggleAnimation() {
           }, 100)
           showLoader()
         }, 2000); /* задержка в 4 секунды */}
-    }
+  }
 
  function showLoader() {
     var loaderContainer = document.querySelector('.loader-container');
     console.log(loaderContainer)
     loaderContainer.classList.add('show'); /* добавляем класс show для запуска анимации */
-    }
-});
+  }
 
