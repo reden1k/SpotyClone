@@ -21,5 +21,20 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function toggleAnimation() {
       var button = document.querySelector('.button-auth');
-      button.classList.toggle('animation-active');
+      if (!button.classList.contains('animation-active')) {
+        button.classList.toggle('animation-active');
+        setTimeout(function() {
+          button.classList.add('fade-out');
+          setTimeout(() => {
+            button.style.display = 'none'; 
+          }, 100)
+          showLoader()
+        }, 2000); /* задержка в 4 секунды */}
     }
+
+    function showLoader() {
+      var loaderContainer = document.querySelector('.loader-container');
+      console.log(loaderContainer)
+      loaderContainer.classList.add('show'); /* добавляем класс show для запуска анимации */
+    }
+
