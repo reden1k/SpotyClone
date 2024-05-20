@@ -6,6 +6,7 @@ let user;
 export default async function execute(token) {
     user = user ?? await createUser(token);
     let playlist;
+    console.log(user.getFavSongsCount())
     if (!user.isCreatedPlaylist()) {
         playlist = await createPlaylist(user.getId(), token)
         user.setPlaylists(await getAllPlaylists(user.getPlaylistsCount(), token));

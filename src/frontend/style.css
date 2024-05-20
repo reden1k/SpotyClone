@@ -23,6 +23,11 @@ body {
 .icon {
     margin: auto;
     padding-bottom: 25px;
+    transition: transform 0.5s ease;
+}
+
+.icon.move {
+  transform: translateY(-50px);
 }
 
 /* Центр. кнопки */ 
@@ -62,6 +67,13 @@ body {
   transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
   z-index: 10;
   
+}
+
+
+.upper {
+   transform: translateY(-200px);
+   height: 100px;
+   width: 100px;
 }
 
 .button-auth span:last-child {
@@ -118,13 +130,24 @@ body {
 }
 
 .loader-container {
+  display: none;
   opacity: 0; /* начальное состояние - невидимость */
   transition: opacity 2s; /* анимация opacity за 2 секунды */
 }
 
 .loader-container.show {
+  display: block;
   opacity: 1; /* конечное состояние - видимость */
+  transition: opacity 4s;
   transform: translateY(-50px);
+}
+
+.songs-list {
+  opacity: 0;
+}
+
+.songs-list.show {
+  opacity: 1;
 }
 
 .loader {
