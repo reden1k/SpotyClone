@@ -22,7 +22,7 @@ function createWindow () {
       }
   })
   console.log(path.join(process.cwd(), 'src/frontend/index.js'))
-  win.loadFile(path.join(process.cwd(), '/dist/index.html'))
+  win.loadFile(path.join(process.cwd(), 'dist/index.html'))
   // win.setMenu(null) deleting default menu
 }
 
