@@ -1,16 +1,19 @@
 //all functions of app right here!
-import { getAllPlaylists, HTTP } from "./Requests.js"
-const endPoints = {
-    //endpoints with normal name of  keys
-    userProfile: 'https://api.spotify.com/v1/me', //GET
-    userSavedTracks: 'https://api.spotify.com/v1/me/tracks?limit=50&offset=0', //GET
-}
-const httpMethod = {
-    POST: 'POST',
-    DELETE: 'DELETE',
-    GET: 'GET',
-    PUT: 'PUT'
-}
-export default function execute(token) {
-    console.log(HTTP(httpMethod.GET, endPoints.userProfile, token));
+import { getAllPlaylists, HTTP, addAllTracks, removeAllTracks, getAllCreatedPlaylistSongs } from "./Requests.js"
+import { createUser } from "./User.js";
+import { createPlaylist, getCreatedPlaylist } from "./Playlist.js";
+let user;
+export default async function execute(token) {
+    user = user ?? await createUser(token);
+    let playlist;
+    console.log(user.getFavSongsCount())
+    if (!user.isCreatedPlaylist()) {
+        playlist = await createPlaylist(user.getId(), token)
+        user.setPlaylists(await getAllPlaylists(user.getPlaylistsCount(), token));
+        await addAllTracks(user.getFavSongsCount(), user.getFavSongs(), playlist.getId(), token);
+    } else {
+        playlist = await getCreatedPlaylist(user.getPlaylists(), token)
+        await removeAllTracks(playlist.getTotalSongsCount(), playlist.getSongs(), playlist.getId(), token);
+        await addAllTracks(user.getFavSongsCount(), user.getFavSongs(), playlist.getId(), token);
+    }
 }
