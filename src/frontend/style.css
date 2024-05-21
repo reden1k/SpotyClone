@@ -1,7 +1,15 @@
+@font-face {
+  font-family: 'Gotham Medium';
+  src: url('source/fonts/Gotham-Medium.otf') format('opentype');
+}
+
 body, html {
   margin: 0;
   padding: 0;
-  height: 100%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .background {
@@ -13,12 +21,6 @@ body, html {
   width: 1920px;
   height: 1080px;
   z-index: -1;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .container {
@@ -34,6 +36,46 @@ body {
   max-width: 100%;
   height: auto;
   margin-bottom: 90px; /* Отступ снизу для разделения логотипа и кнопки */
+  transition: transform 0.8s ease, width 0.8s ease, height 0.8s ease;
+}
+
+.icon-container {
+  display: flex;
+  transform: translateX(35%);
+  transition: transform 0.8s ease, width 0.8s ease, height 0.8s ease, justify-content 0.5s ease;
+}
+
+.icon-container.move {
+  transform: translateY(-80%) scale(0.6);
+}
+
+.text-container {
+  display: flex;
+  overflow: hidden;
+  width: 470px;
+}
+
+.text-container.hidden {
+  display: flex;
+}
+
+.slide-in-text {
+  display: inline-block;
+  transform: translateX(-500%) translateY(100%);
+  white-space: nowrap; /* Начальное состояние: текст полностью за пределами слева */
+  transition: transform 0.8s ease; /* Плавный переход для трансформации */
+  user-select: none;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  font-size: 80px;
+  color: #FFF;
+  font-family: "Gotham Medium";
+}
+
+.slide-in-text.slid-in {
+  transform: translateX(0);
+  transform: translateY(100%); /* Конечное состояние: текст на своем месте */
 }
 
 /* Кнопка авторизации */
@@ -66,12 +108,6 @@ body {
   margin: auto;
   transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
   z-index: 10;
-}
-
-.upper {
-  transform: translateY(-200px);
-  height: 100px;
-  width: 100px;
 }
 
 .button-auth span:last-child {
@@ -179,4 +215,20 @@ body {
 @keyframes animloader {
   0%   { height: 48px} 
   100% { height: 4px}
+}
+
+@media (max-width: 600px) {
+  .icon {
+      width: 100px;
+      height: 100px;
+  }
+  
+  .slide-in-text {
+      font-size: 1.5rem;
+  }
+
+  .button-start {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+  }
 }
