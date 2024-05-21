@@ -1,10 +1,11 @@
 function toggleAnimation() {
-  var button = document.querySelector('.button-auth');
+  var button = document.querySelector('.button-start');
   var icon = document.querySelector('.icon');
   if (!button.classList.contains('animation-active')) {
       button.classList.toggle('animation-active');
       setTimeout(function() {
         button.classList.add('fade-out');
+        icon.classList.add('move')
         setTimeout(() => {
           button.style.display = 'none'; 
         }, 500)

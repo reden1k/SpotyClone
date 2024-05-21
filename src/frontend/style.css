@@ -1,190 +1,75 @@
+/* Reset some default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 body {
-    overflow-x: hidden;
-    overflow-y: scroll;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
 }
 
-.background {
-    position: fixed;
-    right: 0;
-    bottom: 0;
-    min-width: 100%; 
-    min-height: 100%;
-    width: 1920px;
-    height: 1080px;
-    z-index: -1;
+/* Container for centering and padding */
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-/* Центр. всего блока */
-.start {
-    display: grid;
-    margin-top: 17%;
+/* Header styling */
+header {
+  background: #333;
+  color: #fff;
+  padding: 20px 0;
 }
 
-.icon {
-    margin: auto;
-    padding-bottom: 25px;
-    transition: transform 0.5s ease;
+header h1 {
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-.icon.move {
-  transform: translateY(-50px);
+nav ul {
+  list-style: none;
+  text-align: center;
 }
 
-/* Центр. кнопки */ 
-.auth {
-    height: 50px;
-    width: 150px;
-    border-radius: 25px;
-    margin: auto;
+nav ul li {
+  display: inline;
+  margin: 0 10px;
 }
 
-/* Кнопка авторизации */
-.button-auth {
-  height: 50px;
-  width: 150px;
-  border-radius: 15px;
-  margin: auto;
-  position: relative;
-  overflow: hidden;
-  border: rgb(0, 0, 0);
-  display: inline-block;
-  font-size: 15px;
-  line-height: 18px;
-  padding: 18px 18px 17px;
+nav ul li a {
+  color: #fff;
   text-decoration: none;
-  cursor: pointer;
-  background: #fff;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  box-shadow: 0 0 10px rgba(11, 99, 246, 0); /* Начальное значение тени с прозрачностью 0 */
-  transition: box-shadow 0.3s ease; /* Добавляем анимацию */
-  font-family: "Gotham Medium"; 
 }
 
-.button-auth span:first-child {
-  margin: auto;
-  transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
-  z-index: 10;
-  
+nav ul li a:hover {
+  text-decoration: underline;
 }
 
-
-.upper {
-   transform: translateY(-200px);
-   height: 100px;
-   width: 100px;
+/* Main content styling */
+main {
+  padding: 20px 0;
 }
 
-.button-auth span:last-child {
-  color: white;
-  display: block;
-  position: absolute;
-  bottom: 0;
-  transition: all 500ms cubic-bezier(0.48, 0, 0.12, 1);
-  z-index: 100;
-  opacity: 0;
-  top: 65%;
-  left: 50%;
-  transform: translateY(225%) translateX(-50%);
-  height: 14px;
-  line-height: 13px;
+section {
+  margin-bottom: 20px;
 }
 
-.button-auth:after {
-  content: "";
-  position: absolute;
-  bottom: -50%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #1f1b1b;
-  transform-origin: bottom center;
-  transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
-  transform: skewY(9.3deg) scaleY(0);
-  z-index: 50;
+section h2 {
+  margin-bottom: 10px;
 }
 
-.animation-active:after {
-  transform-origin: bottom center;
-  transform: skewY(9.3deg) scaleY(2);
-  transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+section p {
+  margin-bottom: 10px;
 }
 
-.animation-active span:last-child {
-  transform: translateX(-50%) translateY(-100%);
-  opacity: 1;
-  transition: all 900ms cubic-bezier(0.48, 0, 0.12, 1);
-}
-
-.animation-active {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); 
-}
-
-.button-auth {
-  transition: opacity 0.5s; /* добавляем переход для opacity */
-}
-
-.button-auth.fade-out {
-  opacity: 0; /* установка opacity в 0 для исчезновения кнопки УБИРАЕТ КНОПКУ */
-}
-
-.loader-container {
-  display: none;
-  opacity: 0; /* начальное состояние - невидимость */
-  transition: opacity 2s; /* анимация opacity за 2 секунды */
-}
-
-.loader-container.show {
-  display: block;
-  opacity: 1; /* конечное состояние - видимость */
-  transition: opacity 4s;
-  transform: translateY(-50px);
-}
-
-.songs-list {
-  opacity: 0;
-}
-
-.songs-list.show {
-  opacity: 1;
-}
-
-.loader {
-  width: 8px;
-  height: 10px;
-  border-radius: 4px;
-  display: block;
-  margin: 10px auto;
-  position: relative;
-  background: currentColor;
-  color: #FFF;
-  box-sizing: border-box;
-  animation: animloader 0.5s 0.3s linear infinite alternate;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); 
-}
-
-.loader::after, .loader::before {
-  content: '';
-  width: 8px;
-  height: 20px;
-  border-radius: 4px;
-  background: currentColor;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 20px;
-  box-sizing: border-box;
-  animation: animloader 0.5s  0.45s  linear infinite alternate;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); 
-}
-.loader::before {
-  left: -20px;
-  animation-delay: 0s;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); 
-}
-
-@keyframes animloader {
-  0%   { height: 48px} 
-  100% { height: 4px}
+/* Footer styling */
+footer {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 10px 0;
 }
