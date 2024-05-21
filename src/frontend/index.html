@@ -10,7 +10,12 @@
 <body>
     <video preload="auto" class="background" src="source/анимация фона.mp4" autoplay muted loop></video>
     <div class="container">
-        <img class="icon" src="source/icon.png" alt="SpotyClone icon" width="200px" height="200px" vspace="50px">
+        <div class="icon-container">
+            <img class="icon" src="source/icon.png" alt="SpotyClone icon" width="200px" height="200px" vspace="50px">
+            <div class="text-container hidden">
+                <span class="slide-in-text">SpotyClone</span>
+            </div>
+        </div>
         <button class="button-auth" onclick="toggleAnimation()">Start<span>Authorization..</span></button>
         <div class="loader-container">
             <span class="loader"></span>
