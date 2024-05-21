@@ -1,31 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpotyClone</title>
     <link href="source/fonts/Gotham-Medium.otf" rel="stylesheet"> 
     <link rel="stylesheet" href="style.css">
-    <title>SpotyClone</title>
 </head>
 <body>
     <video preload="auto" class="background" src="source/анимация фона.mp4" autoplay muted loop></video>
-    <div class="start">
+    <div class="container">
         <img class="icon" src="source/icon.png" alt="SpotyClone icon" width="200px" height="200px" vspace="50px">
-        <div class="auth">
-            <button class="button-auth" onclick="toggleAnimation()">Start<span>Authorization..</span></button></button>
-        </div>
-
+        <button class="button-auth" onclick="toggleAnimation()">Start<span>Authorization..</span></button>
         <div class="loader-container">
             <span class="loader"></span>
-        </div>
-
-        <div class="songs-list">
-            <ul> 
-            </ul>
         </div>
     </div>
     <script src="toggle.js"></script>     
 </body>
 </html>
-
-

@@ -5,6 +5,7 @@ function toggleAnimation() {
       button.classList.toggle('animation-active');
       setTimeout(function() {
         button.classList.add('fade-out');
+        icon.classList.add('move')
         setTimeout(() => {
           button.style.display = 'none'; 
         }, 500)
@@ -18,7 +19,7 @@ function showLoader() {
   loaderContainer.style.display = 'block'; // Устанавливаем display: block
     setTimeout(() => {
       loaderContainer.classList.add('show'); // Добавляем класс для анимации
-    }, 100);
+    }, 400);
 }
 
 function showTable() {
