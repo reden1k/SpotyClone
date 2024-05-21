@@ -1,6 +1,6 @@
 function toggleAnimation() {
   var button = document.querySelector('.button-auth');
-  var icon = document.querySelector('.icon');
+  var icon = document.querySelector('.icon-container');
   if (!button.classList.contains('animation-active')) {
       button.classList.toggle('animation-active');
       setTimeout(function() {
@@ -16,9 +16,13 @@ function toggleAnimation() {
   
 function showLoader() {
   var loaderContainer = document.querySelector('.loader-container');
+  var text = document.querySelector('.slide-in-text');
+  var iconContainer = document.querySelector('.text-container.hidden');
   loaderContainer.style.display = 'block'; // Устанавливаем display: block
     setTimeout(() => {
-      loaderContainer.classList.add('show'); // Добавляем класс для анимации
+      loaderContainer.classList.add('show');
+      text.classList.add('slid-in')
+      iconContainer.classList.toggle('hidden') // Добавляем класс для анимации
     }, 400);
 }
 
