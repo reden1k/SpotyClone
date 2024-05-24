@@ -9,8 +9,8 @@ const wss = new WebSocket.WebSocketServer({port: 3000});
 
 function createWindow () {
     win = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 720,
+    height: 1280,
     sandbox: true,
     resizable: true,
     icon: path.join(process.cwd(), '/dist/source/icon.png'),
@@ -21,6 +21,7 @@ function createWindow () {
         // preload: path.join(process.cwd(), '/dist/bundle.js')
       }
   })
+  win.setMinimumSize(700, 500);
   console.log(path.join(process.cwd(), 'src/frontend/index.js'))
   win.loadFile(path.join(process.cwd(), 'dist/index.html'))
   // win.setMenu(null) deleting default menu
@@ -53,6 +54,7 @@ wss.on('connection', (socket) => {
   socket.on('message', (event) => {
     const token = JSON.parse(event.toString('utf8')).accessToken;
     console.log(`Token: ${token}`);
+    // win.webContents.send('message-from-main', 'Привет')
     execute(token);
   })
 })
