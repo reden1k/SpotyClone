@@ -3,13 +3,14 @@ import endPoint from './Endpoints.js'
 import { getId, getTotal } from "./Parser.js";
 
 export class User {
-    constructor(id, favSongsCount, playlistsCount, playlists, favSongs, isCreated, playlistId) {
+    constructor(id, favSongsCount, playlistsCount, playlists, favSongs, isCreated, token) {
         this.id = id;
         this.favSongsCount = favSongsCount;
         this.playlistsCount = playlistsCount;
         this.playlists = playlists;
         this.favSongs = favSongs;
-        this.isCreated = isCreated
+        this.isCreated = isCreated;
+        this.token = token;
     }
 
     getId() {
@@ -32,6 +33,10 @@ export class User {
         return this.favSongs;
     }
 
+    getToken() {
+        return this.token;
+    }
+
     isCreatedPlaylist() {
         return this.isCreated
     }
@@ -48,6 +53,7 @@ export async function createUser(token) {
     const playlists = await getAllPlaylists(playlistsCount, token);
     const favSongs = await getAllFavSongs(favSongsCount, token);
     const isCreatedPlaylist = !playlists.every((p) => p.description !== 'SpotyClone');
+    const userToken = token;
 
-    return new User(id, favSongsCount, playlistsCount, playlists, favSongs, isCreatedPlaylist);
+    return new User(id, favSongsCount, playlistsCount, playlists, favSongs, isCreatedPlaylist, userToken);
 }

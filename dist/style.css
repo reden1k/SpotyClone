@@ -6,10 +6,12 @@
 body, html {
   margin: 0;
   padding: 0;
-  height: 90%;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
 }
 
 ::-webkit-scrollbar {
@@ -56,7 +58,7 @@ body, html {
 }
 
 .icon-container.move {
-  transform: translateY(-80%) scale(0.6);
+  transform: translateY(-120%) scale(0.6);
 }
 
 .text-container {
@@ -165,7 +167,7 @@ body, html {
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); 
 }
 
-.button-auth.fade-out {
+.button-start.fade-out {
   opacity: 0; /* установка opacity в 0 для исчезновения кнопки */
   visibility: hidden; /* скрытие кнопки, но сохранение пространства */
 }
@@ -173,11 +175,11 @@ body, html {
 .loader-container {
   position: absolute;
   top: 85%;
-  left: 30%;
-  transform: translate(-50%, -50%);
+  left: 50%;
+  transform: translateX(-50%);
   display: none;
   opacity: 0;
-  transition: opacity 2s;
+  transition: opacity 1s;
 }
 
 .loader-container.show {
@@ -185,7 +187,7 @@ body, html {
   left: 50%; /* Помещаем кнопку по горизонтали по центру */
   transform: translateX(-50%);
   opacity: 1; /* конечное состояние - видимость */
-  transition: opacity 2s;
+  transition: opacity 1s;
 }
 
 .loader {
@@ -225,9 +227,9 @@ body, html {
 .list-container {
   display: none;
   position: absolute;
-  transform: translate(2%, 20%);
+  transform: translate(2%, 5%);
   width: 390px; /* Set the specific width */
-  height: 700px; /* Set the specific height */
+  height: 730px; /* Set the specific height */
   background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
   backdrop-filter: blur(10px); /* Blur effect */
   padding: 3px;
@@ -286,13 +288,15 @@ li:last-child {
 
 .track {
   height: 70px;
-  width: 70px;
+  width: 360px;
   display: flex;
   align-items: flex-start; /* Выравниваем элементы по верхнему краю */
   margin-bottom: 0px;
+  opacity: 0; /* Сначала список будет невидимым */
+  animation: fadeIn 0.5s ease forwards; /* Анимация появления */
 }
 
-.logo {
+.logo { 
   width: 60px;
   height: 60px;
   margin-right: 10px;
@@ -301,6 +305,8 @@ li:last-child {
 
 .details {
   display: flex;
+  height: 60px;
+  width: 300px;
   flex-direction: column;
   padding-top: 15px; /* Располагаем элементы в столбик */
   font-family: "Gotham Medium"; 
@@ -314,6 +320,7 @@ li:last-child {
 .artist {
   margin: 0;
   color: #666;
+  font-size: 13px;
 }
 
 @keyframes fadeIn {

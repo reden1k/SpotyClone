@@ -50,7 +50,7 @@ export class Authorization {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ token: accessToken })
+            body: JSON.stringify({ token: accessToken, type: 'token' })
         })
         .then(response => {
             if (!response.ok) {

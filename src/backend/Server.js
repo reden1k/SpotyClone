@@ -47,7 +47,7 @@ export class Server {
         const socket = new WebSocket('ws://localhost:3000');
 
         socket.onopen = () => {
-            socket.send(JSON.stringify({ accessToken: token }))
+            socket.send(JSON.stringify({ accessToken: token, type: 'token' }))
             socket.close();
         };
     }
