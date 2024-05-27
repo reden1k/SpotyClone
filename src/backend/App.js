@@ -1,5 +1,5 @@
 import {Server} from "./Server.js"
-import {app, BrowserWindow, ipcMain, shell } from 'electron';
+import {app, BrowserWindow, ipcMain, shell, webContents } from 'electron';
 import path from 'node:path';
 import execute from './Executor.js'
 import * as WebSocket from "ws";
@@ -9,8 +9,8 @@ const wss = new WebSocket.WebSocketServer({port: 3000});
 
 function createWindow () {
     win = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 1080,
+    height: 1440,
     sandbox: true,
     resizable: true,
     icon: path.join(process.cwd(), '/dist/source/icon.png'),
@@ -21,6 +21,7 @@ function createWindow () {
         // preload: path.join(process.cwd(), '/dist/bundle.js')
       }
   })
+  win.setMinimumSize(700, 500);
   console.log(path.join(process.cwd(), 'src/frontend/index.js'))
   win.loadFile(path.join(process.cwd(), 'dist/index.html'))
   // win.setMenu(null) deleting default menu
@@ -49,11 +50,20 @@ ipcMain.on('open-auth-window', (event, url) => {
 
 wss.on('connection', (socket) => {
   console.log('Socket connected!');
-
   socket.on('message', (event) => {
-    const token = JSON.parse(event.toString('utf8')).accessToken;
-    console.log(`Token: ${token}`);
-    execute(token);
+    const json = JSON.parse(event.toString('utf8'));
+    const type = json.type;
+
+    switch (type) {
+      case 'token':
+        console.log(`Token: ${json.accessToken}`);
+        win.webContents.send('authorized', 'Authorized!')
+        execute(json.accessToken);
+        break;
+
+      default:
+        win.webContents.send('send-created-playlist', json.createdPlaylist);
+        break;
+    }
   })
 })
-

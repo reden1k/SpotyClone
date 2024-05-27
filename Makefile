@@ -9,3 +9,4 @@ config-app:
 
 config-auth:
 	npx webpack --config webpack.auth.config.cjs
+
