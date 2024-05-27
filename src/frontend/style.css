@@ -228,15 +228,15 @@ body, html {
   display: none;
   position: absolute;
   transform: translate(2%, 5%);
-  width: 390px; /* Set the specific width */
-  height: 730px; /* Set the specific height */
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-  backdrop-filter: blur(10px); /* Blur effect */
+  width: 390px; 
+  height: 730px; 
+  background: rgba(0, 0, 0, 0.5); 
+  backdrop-filter: blur(10px); 
   padding: 3px;
   border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: add a shadow for better visibility */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
   flex-direction: column;
-  overflow: hidden; /* Enable vertical scrolling */
+  overflow: hidden;
   
 }
 
@@ -268,7 +268,7 @@ body, html {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  color: white; /* White text for contrast */
+  color: white; 
 }
 
 .tracks.show {
@@ -283,7 +283,7 @@ li {
 }
 
 li:last-child {
-  border-bottom: none; /* Remove border from the last item */
+  border-bottom: none; 
 }
 
 .track {
