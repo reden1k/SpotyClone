@@ -1,3 +1,4 @@
+import { stat } from 'fs';
 import { Authorization } from '../backend/Authorization.js';
 import { ipcRenderer, shell } from 'electron';
 
@@ -22,39 +23,59 @@ window.addEventListener('DOMContentLoaded', () => {
 
     ipcRenderer.on('authorized', () => {
       setTimeout(() => {
-        const loaderContainer = document.querySelector('.loader-container');
-        const text = document.querySelector('.slide-in-text');
-        loaderContainer.classList.remove('show')
-        iconContainer.classList.add('move');
-        setTimeout(() => {
-          text.classList.add('slid-in');
-        }, 500)
-        showTable()
-      }, 2000)
+        changeStatus('Making magic')
+      }, 3000)
     })
 
     ipcRenderer.on('send-created-playlist', (e, playlist) => {
+      changeStatus('Adding songs');
       const songs = playlist.songs;
       console.log(songs[0])
       for (let i = 0; i < songs.length; i += 1) {
-        setTimeout(() => {
           addTrackInList(songs[i]);
-        }, 250)
       }
+      setTimeout(() => {
+        addTracksListeners();
+        showTable();
+      }, 5000)
+    })
+
+    ipcRenderer.on('response-artist', (e, artist) => {
+      console.log(artist)
+    })
+
+    ipcRenderer.on('throw-error', (e, error) => {
+      setTimeout(() => {
+        const iconContainer = document.querySelector('.icon-container');
+        const loaderContainer = document.querySelector('.loader-container');
+        const listContainer = document.querySelector('.list-container')
+        iconContainer.classList.add('fade-out');
+        loaderContainer.classList.add('fade-out');
+        listContainer.classList.add('fade-out');
+        setTimeout(() => {
+          listContainer.style.display = 'none';
+          iconContainer.style.display = 'none';
+          loaderContainer.style.display = 'none';
+          throwError(error)
+        }, 1700)
+      }, 4500)
+      console.log(error)
     })
 });
 
 function addTrackInList(item) {
   const name = item.track.name;
-  const artists = getArtists(item.track.artists);
+  const artists = getCompactArtists(item.track.artists);
   const logo = item.track.album.images[0];
+  const artistEndpoint = item.track.artists[0].href;
   const ul = document.querySelector('.tracks');
-  console.log(name, artists, logo)
+  console.log(name, artists, logo, artistEndpoint)
 
   const li = document.createElement('li');
   
   const div = document.createElement('div');
   div.setAttribute('class','track');
+  div.setAttribute('data-artist-endpoint', artistEndpoint)
 
   const img = document.createElement('img');
   img.setAttribute('class','logo');
@@ -85,27 +106,86 @@ function addTrackInList(item) {
 }
 
 function showLoader() {
-  var loaderContainer = document.querySelector('.loader-container');
-  var text = document.querySelector('.slide-in-text');
-  var iconContainer = document.querySelector('.text-container.hidden');
-  loaderContainer.style.display = 'block'; // Устанавливаем display: block
+  const loaderContainer = document.querySelector('.loader-container');
+  const status = document.querySelector('.status');
+  loaderContainer.style.display = 'block';
+  status.style.display = 'block'
     setTimeout(() => {
-      loaderContainer.classList.add('show');
-      iconContainer.classList.toggle('hidden') // Добавляем класс для анимации
+      loaderContainer.classList.add('fade-in');
+      status.classList.add('fade-in')
     }, 400);
 }
 
 function showTable() {
   const list = document.querySelector('.list-container');
-  const ul = document.querySelector('.tracks')
-  if (!list.classList.contains('show') && !ul.classList.contains('show')) {
-      list.classList.add('show')
-      ul.classList.add('show')
+  const iconContainer = document.querySelector('.icon-container');
+  const loaderContainer = document.querySelector('.loader-container');
+  const text = document.querySelector('.slide-in-text');
+  const statusText = document.querySelector('.status');
+  loaderContainer.classList.remove('fade-in');
+  statusText.classList.remove('fade-in');
+  statusText.style.opacity = 0;
+  setTimeout(() => {
+    loaderContainer.style.display = 'none';
+    statusText.style.display = 'none';
+    iconContainer.classList.add('move');
+    text.classList.add('slid-in')
+  }, 600);
+
+  setTimeout(() => {
+    const ul = document.querySelector('.tracks')
+    if (!list.classList.contains('fade-in') && !ul.classList.contains('fade-in')) {
+    list.style.display = 'block';
+    ul.style.display = 'block';
+    setTimeout(() => {
+      list.classList.add('fade-in')
+      ul.classList.add('fade-in') 
+    }, 100)
   }
+  }, 1500)
 }
 
-const getArtists = (array) => {
-  const artists = [];
+function addTracksListeners() {
+  const liArray = document.querySelectorAll('li');
+      liArray.forEach((li) => {
+        li.addEventListener('click', () => {
+          const divTrack = li.querySelector('.track');
+          const endPoint = divTrack.dataset.artistEndpoint;
+          console.log(`You tapped on div with ${endPoint}`)
+          ipcRenderer.send('send-endpoint', endPoint);
+        })
+      })
+}
+
+function throwError(error) {
+  const body = document.querySelector('body')
+
+  const errorContainer = document.createElement('div');
+  errorContainer.setAttribute('class', 'error-container');
+
+  const title = document.createElement('div');
+  title.setAttribute('class', 'error-title');
+
+  const description = document.createElement('div');
+  description.setAttribute('class', 'error-description');
+
+  title.textContent = `${error.message}: ${error.status}`;
+  description.textContent = error.description;
+
+  errorContainer.appendChild(title);
+  errorContainer.appendChild(description);
+
+  body.appendChild(errorContainer)
+
+  setTimeout(() => {
+    title.classList.add('fade-in');
+    description.classList.add('fade-in')
+    errorContainer.classList.add('fade-in')
+  }, 10)
+}
+
+const getCompactArtists = (array) => {
+  let artists = [];
   if (array.length < 3) {
     return array.map((a) => a.name);
   }
@@ -114,5 +194,28 @@ const getArtists = (array) => {
     artists.push(array[i].name);
     i += 1;
   }
+  if (artists.join(',').length > 36) {
+    let k = 0;
+    artists = []
+    while (k < 2) {
+      artists.push(array[k].name);
+      k += 1;
+    }
+  }
   return artists;
+}
+
+function changeStatus(to) {
+  const textElement = document.querySelector('.status');
+
+  // Плавно скрыть текущий текст
+  textElement.style.opacity = 0;
+
+  // Изменить текст после завершения анимации скрытия
+  setTimeout(() => {
+      textElement.textContent = to;
+
+      // Плавно показать новый текст
+      textElement.style.opacity = 1;
+  }, 500); // Время задержки совпадает с временем перехода в CSS
 }

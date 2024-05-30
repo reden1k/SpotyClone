@@ -24,6 +24,10 @@ body, html {
   border-radius: 15px;
 }
 
+* {
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
 .background {
   position: fixed;
   right: 0;
@@ -44,17 +48,23 @@ body, html {
   text-align: center;
 }
 
+.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s;
+}
+
 .icon {
   max-width: 100%;
   height: auto;
   margin-bottom: 90px; /* Отступ снизу для разделения логотипа и кнопки */
-  transition: transform 0.8s ease, width 0.8s ease, height 0.8s ease;
+  transition: transform 0.8s ease, width 0.8s ease, height 0.8s ease, opacity 1s;
 }
 
 .icon-container {
   display: flex;
   transform: translateX(35%);
-  transition: transform 0.8s ease, width 0.8s ease, height 0.8s ease, justify-content 0.5s ease;
+  transition: transform 0.8s ease, width 0.8s ease, height 0.8s ease, justify-content 0.5s ease, opacity 1s;
 }
 
 .icon-container.move {
@@ -65,10 +75,6 @@ body, html {
   display: flex;
   overflow: hidden;
   width: 470px;
-}
-
-.text-container.hidden {
-  display: flex;
 }
 
 .slide-in-text {
@@ -172,22 +178,28 @@ body, html {
   visibility: hidden; /* скрытие кнопки, но сохранение пространства */
 }
 
-.loader-container {
-  position: absolute;
-  top: 85%;
-  left: 50%;
-  transform: translateX(-50%);
+.status {
   display: none;
+  position: absolute;
   opacity: 0;
-  transition: opacity 1s;
+  transition: opacity 0.5s ease-in-out;
+  user-select: none;
+  top: 75%;
+  font-size: 30px;
+  font-family: "Gotham Medium";
+  color: #FFF;
 }
 
-.loader-container.show {
-  bottom: 0; /* Помещаем кнопку внизу контейнера */
-  left: 50%; /* Помещаем кнопку по горизонтали по центру */
-  transform: translateX(-50%);
-  opacity: 1; /* конечное состояние - видимость */
-  transition: opacity 1s;
+.loader-container {
+  height: 40px;
+  width: 40px;
+  display: none;
+  position: absolute;
+  bottom: 0;
+  top: 100%;
+  right: 45%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .loader {
@@ -196,7 +208,7 @@ body, html {
   border-radius: 4px;
   display: block;
   margin: 10px auto;
-  position: relative;
+  position: absolute;
   background: currentColor;
   color: #FFF;
   box-sizing: border-box;
@@ -218,6 +230,7 @@ body, html {
   animation: animloader 0.5s  0.45s  linear infinite alternate;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.8); 
 }
+
 .loader::before {
   left: -20px;
   animation-delay: 0s;
@@ -237,7 +250,8 @@ body, html {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Optional: add a shadow for better visibility */
   flex-direction: column;
   overflow: hidden; /* Enable vertical scrolling */
-  
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
 .list-container.show {
@@ -269,21 +283,20 @@ body, html {
   margin: 0;
   padding: 0;
   color: white; /* White text for contrast */
-}
-
-.tracks.show {
-  display: block;
-  opacity: 0; /* Сначала список будет невидимым */
-  animation: fadeIn 2s ease forwards; /* Анимация появления */
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
 
 li {
   padding: 15px;
   text-align: left;
+  visibility: 0;
+  border: 1px solid transparent;
+  border-radius: 50px;
 }
 
-li:last-child {
-  border-bottom: none; /* Remove border from the last item */
+li:hover {
+  border-color: #FFF; /* Цвет обводки при наведении (синий, можно изменить) */
 }
 
 .track {
@@ -293,7 +306,9 @@ li:last-child {
   align-items: flex-start; /* Выравниваем элементы по верхнему краю */
   margin-bottom: 0px;
   opacity: 0; /* Сначала список будет невидимым */
-  animation: fadeIn 0.5s ease forwards; /* Анимация появления */
+  animation: fadeIn 1s ease forwards; /* Анимация появления */
+  transition: border-color 0.3s ease-in-out;
+  border: 1px solid transparent;
 }
 
 .logo { 
@@ -321,6 +336,47 @@ li:last-child {
   margin: 0;
   color: #666;
   font-size: 13px;
+}
+
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Выровнять элементы по левому краю */
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+  backdrop-filter: blur(10px); /* Blur effect */
+  border-radius: 15px;
+  color: rgb(255, 255, 255); /* Красный цвет текста */
+  /* box-shadow: 0 0 20px rgba(157, 160, 160, 0.8); */
+  gap: 10px; /* Отступы между элементами */
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.error-title {
+  font-size: 50px;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  font-family: "Gotham Medium"; 
+}
+
+.error-description {
+  margin-top: 20px;
+  font-size: 20px;
+  text-align: center;
+  max-width: 600px;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+  font-family: "Gotham Medium"; 
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
 }
 
 @keyframes fadeIn {

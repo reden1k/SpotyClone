@@ -1,13 +1,7 @@
-@import url(https://db.onlinewebfonts.com/c/9a2bc11be56851dde98c1b49302cc21a?family=Gotham+Medium); 
 @font-face {
-    font-family: "Gotham Medium";
-    src: url("https://db.onlinewebfonts.com/t/9a2bc11be56851dde98c1b49302cc21a.eot");
-    src: url("https://db.onlinewebfonts.com/t/9a2bc11be56851dde98c1b49302cc21a.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/9a2bc11be56851dde98c1b49302cc21a.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/9a2bc11be56851dde98c1b49302cc21a.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/9a2bc11be56851dde98c1b49302cc21a.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/9a2bc11be56851dde98c1b49302cc21a.svg#Gotham Medium")format("svg");
-} /*TODO: Fix loading from internet*/
+  font-family: 'Gotham Medium';
+  src: url('source/fonts/Gotham-Medium.otf') format('opentype');
+}
 
 body {
     overflow-x: hidden;
