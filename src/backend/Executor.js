@@ -1,11 +1,11 @@
 //all functions of app right here!
-import { getAllPlaylists, addAllTracks, removeAllTracks, getAllCreatedPlaylistSongs } from "./Requests.js"
+import { getAllPlaylists, addAllTracks, removeAllTracks, getAllCreatedPlaylistSongs, getArtist } from "./Requests.js"
 import { createUser } from "./User.js";
 import { createPlaylist, getCreatedPlaylist } from "./Playlist.js";
 import WebSocket from 'ws';
 let user;
 
-export default async function execute(token) {
+export async function execute(token) {
     user = user ?? await createUser(token);
     let playlist;
     console.log(user.getFavSongsCount())
@@ -22,6 +22,15 @@ export default async function execute(token) {
     const socket = new WebSocket('ws://localhost:3000');
     socket.onopen = () => {
         socket.send(JSON.stringify({ createdPlaylist: playlist, type: 'songs' }))
+        socket.close()
+    };
+}
+
+export async function artistEndpointHandler(endPoint) { //ACCEPTING AND RESPONSING BACK
+    const artist = await getArtist(endPoint, user.getToken())
+    const socket = new WebSocket('ws://localhost:3000');
+    socket.onopen = () => {
+        socket.send(JSON.stringify({ artist, type: 'artist' }))
         socket.close();
     };
 }

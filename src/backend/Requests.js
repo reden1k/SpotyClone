@@ -1,5 +1,8 @@
+import { response } from "express";
 import endpoint from "./Endpoints.js";
 import { getItems, replaceOffset, replacePlaylistId } from "./Parser.js";
+import WebSocket from 'ws';
+
 
 export async function getAllPlaylists(totalPlaylistsCount, token) { //for send request and optimizing code i can use this function like a callback inside HTTP func.
     let offset = 0;
@@ -58,11 +61,17 @@ export async function removeAllTracks(totalSongsCount, createdPlaylistSongs, pla
         const tracks = getTracks(createdPlaylistSongs, from, from + 100);
         await HTTP('DELETE', endPoint, token, tracks);
         from += 100;
+        await sleep(500)
     }
+}
+
+export async function getArtist(endpoint, token) {
+    return await HTTP('GET', endpoint, token);
 }
 
 export async function HTTP(method, endpoint, token, data = null) {
     let result;
+    let statusCode;
     if (!data) {
         await fetch(endpoint, {
             method,
@@ -71,6 +80,7 @@ export async function HTTP(method, endpoint, token, data = null) {
             }
         })
         .then((response) => {
+            statusCode = response.status;
             if (!response.ok) {
                 throw new Error(`Failed to send request: ${response.status}`);
             }
@@ -79,6 +89,13 @@ export async function HTTP(method, endpoint, token, data = null) {
         })
         .catch(error => {
             console.error('\x1b[31m%s\x1b[0m','There has been a problem with your fetch operation:', error);
+            const socket = new WebSocket('ws://localhost:3000');
+            socket.onopen = () => {
+            socket.send(JSON.stringify(errorHandler(statusCode)))
+            socket.close();
+
+            throw new Error(`Failed to send request: ${response.status}`);
+        };
         });
         return result;
     } else {
@@ -88,6 +105,7 @@ export async function HTTP(method, endpoint, token, data = null) {
 
 async function HTTPwithData(method, endpoint, token, data) {
     let result;
+    let statusCode;
     await fetch(endpoint, {
         method,
         headers: {
@@ -97,6 +115,7 @@ async function HTTPwithData(method, endpoint, token, data) {
         body: JSON.stringify(data)
     })
     .then((response) => {
+        statusCode = response.status;
         if (!response.ok) {
             throw new Error(`Failed to send request: ${response.status}`);
         }
@@ -105,8 +124,28 @@ async function HTTPwithData(method, endpoint, token, data) {
     })
     .catch(error => {
         console.error('\x1b[31m%s\x1b[0m','There has been a problem with your fetch operation:', error);
+        const socket = new WebSocket('ws://localhost:3000');
+        socket.onopen = () => {
+        socket.send(JSON.stringify(errorHandler(statusCode)))
+        socket.close();
+
+        throw new Error(`Failed to send request: ${response.status}`);
+    };
     });
     return result;
+}
+
+function errorHandler(statusCode) {
+    switch (statusCode) {
+        case 401:
+            return { message: 'Failed to authorize', description: 'There was a problem getting the token', status: statusCode, type: 'error' }
+        case 403: 
+            return { message: 'Request denied', description: 'The request was rejected by the server, try using a VPN', status: statusCode, type: 'error' }    
+        case 400:
+            return { message: 'Bad request', description: `Sorry for the inconvenience, we're already fixing it!`, status: statusCode, type: 'error' }    
+        default: 
+            return { message: 'Something went wrong', description: 'There was an error in sending the request, we are trying to fix it!', status: statusCode, type: 'error' }
+    }
 }
 
 function getUris(array, from, to) {
@@ -135,4 +174,8 @@ function getTracks(array, from, to) {
         from += 1;
     }
     return tracks;
+}
+
+function sleep(ms) { //delay for requests
+    return new Promise(resolve => setTimeout(resolve, ms));
 }

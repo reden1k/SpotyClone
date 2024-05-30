@@ -1,7 +1,7 @@
 import {Server} from "./Server.js"
 import {app, BrowserWindow, ipcMain, shell, webContents } from 'electron';
 import path from 'node:path';
-import execute from './Executor.js'
+import {execute, artistEndpointHandler} from './Executor.js'
 import * as WebSocket from "ws";
 
 let win;
@@ -21,7 +21,7 @@ function createWindow () {
         // preload: path.join(process.cwd(), '/dist/bundle.js')
       }
   })
-  win.setMinimumSize(700, 500);
+  win.setMinimumSize(700, 952);
   console.log(path.join(process.cwd(), 'src/frontend/index.js'))
   win.loadFile(path.join(process.cwd(), 'dist/index.html'))
   // win.setMenu(null) deleting default menu
@@ -44,9 +44,18 @@ app.on('window-all-closed', () => {
   }
 })
 
+process.on('uncaughtException', (error) => {
+  console.error('Необработанное исключение:', error);
+});
+
+
 ipcMain.on('open-auth-window', (event, url) => {
   Server.start(url)
 });
+
+ipcMain.on('send-endpoint', (event, endpoint) => {
+  artistEndpointHandler(endpoint);
+}) 
 
 wss.on('connection', (socket) => {
   console.log('Socket connected!');
@@ -60,7 +69,16 @@ wss.on('connection', (socket) => {
         win.webContents.send('authorized', 'Authorized!')
         execute(json.accessToken);
         break;
-
+      
+      case 'error': 
+        console.log(json)
+        win.webContents.send('throw-error', json);
+        break;
+      
+      case 'artist':
+        win.webContents.send('response-artist', json);
+        break;
+        
       default:
         win.webContents.send('send-created-playlist', json.createdPlaylist);
         break;

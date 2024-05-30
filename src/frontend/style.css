@@ -151,10 +151,8 @@ body, html {
   z-index: 50;
 }
 
-.animation-active:after {
-  transform-origin: bottom center;
-  transform: skewY(9.3deg) scaleY(2);
-  transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+section h2 {
+  margin-bottom: 10px;
 }
 
 .animation-active span:last-child {
