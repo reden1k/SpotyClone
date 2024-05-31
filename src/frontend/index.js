@@ -49,13 +49,16 @@ window.addEventListener('DOMContentLoaded', () => {
         const iconContainer = document.querySelector('.icon-container');
         const loaderContainer = document.querySelector('.loader-container');
         const listContainer = document.querySelector('.list-container')
-        iconContainer.classList.add('fade-out');
-        loaderContainer.classList.add('fade-out');
-        listContainer.classList.add('fade-out');
+        const textStatus = document.querySelector('.status');
+        textStatus.style.opacity = 0;
+        iconContainer.style.opacity = 0;
+        loaderContainer.style.opacity = 0;
+        listContainer.style.opacity = 0;
         setTimeout(() => {
           listContainer.style.display = 'none';
           iconContainer.style.display = 'none';
           loaderContainer.style.display = 'none';
+          textStatus.style.display = 'none';
           throwError(error)
         }, 1700)
       }, 4500)
