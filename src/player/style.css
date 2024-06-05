@@ -1,0 +1,199 @@
+@font-face {
+    font-family: 'Gotham Medium';
+    src: url('/src/auth/source/fonts/Gotham-Medium.otf') format('opentype');
+  }
+
+body, html {
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.audio-player-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 640px;
+    width: 640px;
+    background-color: #333;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.5); /* should be image */
+    backdrop-filter: blur(10px); 
+}
+
+.image-container {
+    position: absolute;
+    z-index: -1;
+}
+
+img {
+    border-radius: 30px;
+}
+
+.gradient-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    bottom: 5px;
+    background: linear-gradient(to bottom, rgba(5, 3, 4, 0.8)  50%, rgba(0, 0, 0, 1) 100%);
+    border-radius: 30px;
+    backdrop-filter: blur(5px); 
+    pointer-events: none;
+}
+
+.track-logo {
+    padding-top: 20px;
+    width: 150px;
+    height: 150px;
+}
+
+.track-name {
+    display: flex;
+    justify-content: center;
+    width: 200px;
+    font-size: 30px;
+    font-family: "Gotham Medium";
+    color: #fff;
+}
+
+.artists {
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    align-items: center;
+    padding: 0;
+}
+
+.artist a {
+    width: 100%;
+    font-size: 20px;
+    font-family: "Gotham Medium";
+    color: #666 ;
+    text-decoration: none;
+}
+
+.player {
+    width: 600px;
+    height: 90px;
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    margin-bottom: 15px;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: row;
+    transform: translateX(25%);
+}
+
+/* Контейнеры для прогресс-бара и громкости */
+.progress-container, .volume-container {
+    position: relative;
+    width: 200px;
+    height: 30px; /* Создание пространства для вылезающего ползунка */
+    overflow: visible; /* Позволяет ползунку вылезать за пределы контейнера */
+}
+
+/* Стили для прогресс-бара и громкости */
+.progress-bar, .volume {
+    -webkit-appearance: none; /* Убирает стандартное оформление в браузерах WebKit */
+    -moz-appearance: none; /* Убирает стандартное оформление в Firefox */
+    width: 100%;
+    height: 8px;
+    background: gray; /* Цвет полоски до ползунка */
+    border-radius: 5px;
+    outline: none;
+    background: rgba(0, 0, 0, 0.25); /* Градиент */
+    position: absolute; /* Абсолютное позиционирование для вылезающего ползунка */
+    top: 50%;
+    transform: translateY(-50%); /* Центрирование полоски по вертикали */
+}
+
+.volume {
+    width: 30%;
+    transform: translateY(-300%) translateX(-30%) rotate(-90deg);
+}
+
+/* Ползунок для WebKit */
+.progress-bar::-webkit-slider-thumb, .volume::-webkit-slider-thumb {
+    -webkit-appearance: none; /* Убирает стандартное оформление ползунка в браузерах WebKit */
+    -moz-appearance: none;
+    width: 14px;
+    height: 8px;
+    border-radius: 6px;
+    border: none;
+    background: white; /* Цвет ползунка */
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    top: -6px; /* Смещение ползунка вверх, чтобы он вылезал за пределы полоски */
+}
+
+/* Ползунок для Firefox */
+.progress-bar::-moz-range-thumb, .volume::-moz-range-thumb {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    background: white; /* Цвет ползунка */
+    cursor: pointer;
+    position: relative;
+}
+
+/* Цвет полоски до ползунка в WebKit */
+.progress-bar::-webkit-slider-runnable-track, .volume::-webkit-slider-runnable-track {
+    -moz-appearance: none;
+    transform: translateY(6px);
+    background: transparent;
+}
+
+.progress-bar::-moz-range-track, .volume::-moz-range-track {
+    -moz-appearance: none;
+    height: 8px;
+    background: transparent;
+}
+
+.progress-bar::-ms-track, .volume::-ms-track {
+    -moz-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+}
+
+
+.time {
+    font-size: 15px;
+    font-family: "Gotham Medium";
+    color: white;
+    height: 15px;
+    width: 50px;
+    transform: translateY(7px);
+}
+
+.duration {
+    padding-left: 15px;
+}
+
+.btn {
+    display: flex;
+    border-radius: 30px;
+    border-color: rgba(0, 0, 0, 0);
+    background: rgba(0, 0, 0, 0); 
+    height: 50px;
+    width: 50px;
+    justify-content: center;    
+    margin: auto;
+}
+
+.btn-icon {
+    height: 50px;
+    width: 50px;
+    transform: translateY(-7%);
+}

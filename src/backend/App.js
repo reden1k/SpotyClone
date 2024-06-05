@@ -45,7 +45,7 @@ app.on('window-all-closed', () => {
 })
 
 process.on('uncaughtException', (error) => {
-  console.error('Необработанное исключение:', error);
+  console.error('Exception:', error);
 });
 
 
@@ -53,8 +53,8 @@ ipcMain.on('open-auth-window', (event, url) => {
   Server.start(url)
 });
 
-ipcMain.on('send-endpoint', (event, endpoint) => {
-  artistEndpointHandler(endpoint);
+ipcMain.on('send-endpoint', (event, object) => {
+  artistEndpointHandler(object.endPoint, object.track);
 }) 
 
 wss.on('connection', (socket) => {
@@ -76,6 +76,10 @@ wss.on('connection', (socket) => {
         break;
       
       case 'artist':
+        win.webContents.send('response-artist', json);
+        break;
+
+      case 'no-artist':
         win.webContents.send('response-artist', json);
         break;
         

@@ -2,11 +2,11 @@ import { stat } from 'fs';
 import { Authorization } from '../backend/Authorization.js';
 import { ipcRenderer, shell } from 'electron';
 
-//REFACTOR CODE!!! (MAKE FUNCTION FOR ALL ANIMATIONS)
+let isThrowedError = false;
 
 window.addEventListener('DOMContentLoaded', () => {
     const button = document.querySelector('.button-start');
-    const iconContainer = document.querySelector('.icon-container');
+    // const iconContainer = document.querySelector('.icon-container');
 
     button.addEventListener('click', (e) => {
       button.classList.toggle('animation-active');
@@ -45,23 +45,24 @@ window.addEventListener('DOMContentLoaded', () => {
     })
 
     ipcRenderer.on('throw-error', (e, error) => {
-      setTimeout(() => {
-        const iconContainer = document.querySelector('.icon-container');
-        const loaderContainer = document.querySelector('.loader-container');
-        const listContainer = document.querySelector('.list-container')
-        const textStatus = document.querySelector('.status');
-        textStatus.style.opacity = 0;
-        iconContainer.style.opacity = 0;
-        loaderContainer.style.opacity = 0;
-        listContainer.style.opacity = 0;
+      if (!isThrowedError) {
         setTimeout(() => {
-          listContainer.style.display = 'none';
-          iconContainer.style.display = 'none';
-          loaderContainer.style.display = 'none';
-          textStatus.style.display = 'none';
-          throwError(error)
-        }, 1700)
-      }, 4500)
+          const iconContainer = document.querySelector('.icon-container');
+          const loaderContainer = document.querySelector('.loader-container');
+          const listContainer = document.querySelector('.list-container')
+          const textStatus = document.querySelector('.status');
+          const container = document.querySelector('.container');
+          textStatus.style.opacity = 0;
+          iconContainer.style.opacity = 0;
+          loaderContainer.style.opacity = 0;
+          listContainer.style.opacity = 0;
+          setTimeout(() => {
+            container.style.display = 'none';
+            throwError(error)
+          }, 1700)
+        }, 4500)
+        isThrowedError = true;
+      }
       console.log(error)
     })
 });
@@ -152,10 +153,14 @@ function addTracksListeners() {
   const liArray = document.querySelectorAll('li');
       liArray.forEach((li) => {
         li.addEventListener('click', () => {
+          const name = li.querySelector('.name').textContent;
+          const artists = li.querySelector('.artist').textContent.split(', ');
+          const logo = li.querySelector('.logo').src;
+          console.log(name, artists, logo)
           const divTrack = li.querySelector('.track');
           const endPoint = divTrack.dataset.artistEndpoint;
           console.log(`You tapped on div with ${endPoint}`)
-          ipcRenderer.send('send-endpoint', endPoint);
+          ipcRenderer.send('send-endpoint', { endPoint, track: { name, artists, logo, }});
         })
       })
 }
@@ -172,7 +177,7 @@ function throwError(error) {
   const description = document.createElement('div');
   description.setAttribute('class', 'error-description');
 
-  title.textContent = `${error.message}: ${error.status}`;
+  title.textContent = `${error.message}${error.status}`;
   description.textContent = error.description;
 
   errorContainer.appendChild(title);
@@ -221,4 +226,8 @@ function changeStatus(to) {
       // Плавно показать новый текст
       textElement.style.opacity = 1;
   }, 500); // Время задержки совпадает с временем перехода в CSS
+}
+
+function createPlayer() {
+
 }

@@ -51,6 +51,7 @@ export async function addAllTracks(totalSongsCount, songs, playlistId, token) {
         console.log(uris.uris.length)
         await HTTP('POST', endPoint, token, uris);
         from += 100;
+        await sleep(100)
     }
 }
 
@@ -82,10 +83,10 @@ export async function HTTP(method, endpoint, token, data = null) {
         .then((response) => {
             statusCode = response.status;
             if (!response.ok) {
-                throw new Error(`Failed to send request: ${response.status}`);
+                throw new Error(`Failed to send request: ${statusCode}`);
             }
             result = response.json();
-            console.log('\x1b[32m%s\x1b[0m',`Response status: ${response.status}`)
+            console.log('\x1b[32m%s\x1b[0m',`Response status: ${statusCode}`)
         })
         .catch(error => {
             console.error('\x1b[31m%s\x1b[0m','There has been a problem with your fetch operation:', error);
@@ -94,7 +95,7 @@ export async function HTTP(method, endpoint, token, data = null) {
             socket.send(JSON.stringify(errorHandler(statusCode)))
             socket.close();
 
-            throw new Error(`Failed to send request: ${response.status}`);
+            throw new Error(`Failed to send request: ${statusCode}`);
         };
         });
         return result;
@@ -117,10 +118,10 @@ async function HTTPwithData(method, endpoint, token, data) {
     .then((response) => {
         statusCode = response.status;
         if (!response.ok) {
-            throw new Error(`Failed to send request: ${response.status}`);
+            throw new Error(`Failed to send request: ${statusCode}`);
         }
         result = response.json();
-        console.log('\x1b[32m%s\x1b[0m',`Response status: ${response.status}`)
+        console.log('\x1b[32m%s\x1b[0m',`Response status: ${statusCode}`)
     })
     .catch(error => {
         console.error('\x1b[31m%s\x1b[0m','There has been a problem with your fetch operation:', error);
@@ -129,7 +130,7 @@ async function HTTPwithData(method, endpoint, token, data) {
         socket.send(JSON.stringify(errorHandler(statusCode)))
         socket.close();
 
-        throw new Error(`Failed to send request: ${response.status}`);
+        throw new Error(`Failed to send request: ${statusCode}`);
     };
     });
     return result;
@@ -138,13 +139,13 @@ async function HTTPwithData(method, endpoint, token, data) {
 function errorHandler(statusCode) {
     switch (statusCode) {
         case 401:
-            return { message: 'Failed to authorize', description: 'There was a problem getting the token', status: statusCode, type: 'error' }
+            return { message: 'Failed to authorize', description: 'There was a problem getting the token', status: `: ${statusCode}`, type: 'error' }
         case 403: 
-            return { message: 'Request denied', description: 'The request was rejected by the server, try using a VPN', status: statusCode, type: 'error' }    
+            return { message: 'Request denied', description: 'The request was rejected by the server, try using a VPN', status: `: ${statusCode}`, type: 'error' }    
         case 400:
-            return { message: 'Bad request', description: `Sorry for the inconvenience, we're already fixing it!`, status: statusCode, type: 'error' }    
+            return { message: 'Bad request', description: `Sorry for the inconvenience, we're already fixing it!`, status: `: ${statusCode}`, type: 'error' }    
         default: 
-            return { message: 'Something went wrong', description: 'There was an error in sending the request, we are trying to fix it!', status: statusCode, type: 'error' }
+            return { message: 'Something went wrong', description: 'There was an error in sending the request, we are trying to fix it!', status: statusCode === undefined ? '' : `: ${statusCode}`, type: 'error' }
     }
 }
 
