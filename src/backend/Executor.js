@@ -26,11 +26,20 @@ export async function execute(token) {
     };
 }
 
-export async function artistEndpointHandler(endPoint) { //ACCEPTING AND RESPONSING BACK
-    const artist = await getArtist(endPoint, user.getToken())
-    const socket = new WebSocket('ws://localhost:3000');
-    socket.onopen = () => {
-        socket.send(JSON.stringify({ artist, type: 'artist' }))
+export async function artistEndpointHandler(endPoint, track) { //ACCEPTING AND RESPONSING BACK
+    let artist;
+    try {
+        artist = await getArtist(endPoint, user.getToken())
+        const socket = new WebSocket('ws://localhost:3000');
+        socket.onopen = () => {
+        socket.send(JSON.stringify({ artist, track, type: 'artist' }))
         socket.close();
-    };
+    }
+    } catch (e) {
+        const socket = new WebSocket('ws://localhost:3000');
+        socket.onopen = () => {
+        socket.send(JSON.stringify({ artist: null, track, type: 'no-artist' }))
+        socket.close();
+    }
+    }
 }

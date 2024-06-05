@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Player</title>
+</head>
+<body>
+    <div class="audio-player-container">
+        <div class="image-container">
+            <img src="https://i.scdn.co/image/ab6761610000e5eb188b02a1716542e862d0e5a0" alt="Your Image">
+            <div class="gradient-overlay"></div>
+        </div>
+        <img src="/src/auth/source/icon.png" alt="" class="track-logo">
+        <div class="track-name">Track name</div>
+        <ul class="artists">
+            <li class="artist">
+                <a href="https://open.spotify.com/artist/6bDWAcdtVR3WHz2xtiIPUi" class="link-to-artist">
+                    Fuji Kaze
+                </a>
+            </li>
+            <li class="artist">
+                <a href="https://open.spotify.com/artist/6bDWAcdtVR3WHz2xtiIPUi" class="link-to-artist">
+                    Fuji Kaze
+                </a>
+            </li>
+            <li class="artist">
+                <a href="https://open.spotify.com/artist/6bDWAcdtVR3WHz2xtiIPUi" class="link-to-artist">
+                    Fuji Kaze
+                </a>
+            </li>
+        </ul>
+        <div class="player">
+            <audio class="audio" src="https://p.scdn.co/mp3-preview/fb88e1e903baa5114ad77b9720d7905ef1cb14a4?cid=cb18dd90851c4cdbb12c12905aa51e30"></audio>
+            <button class="btn" data-status="stop">
+                <img class="btn-icon" src="source/start.png" alt="Button">
+            </button>
+            <div class="player-info">
+                <div class="current time">0:00</div>
+                <div class="progress-container">
+                    <input type="range" class="progress-bar" min="0" max="100" value="0">
+                </div>
+                <div class="duration time">0:00</div>
+                <div class="volume-container">
+                    <input type="range" class="volume" min="0" max="1" step="0.1" value="1">
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>

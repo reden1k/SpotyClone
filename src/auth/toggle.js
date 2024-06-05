@@ -1,4 +1,6 @@
 function toggleAnimation() {
-    var button = document.querySelector('.button-auth');
-    button.classList.toggle('animation-active');
+    const button = document.querySelector('.button-auth');
+    if (!button.classList.contains('animation-active')) {
+      button.classList.toggle('animation-active');
+    }
   }
