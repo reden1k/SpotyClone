@@ -54,7 +54,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Описание проекта
+**SpotyClone** - Application for share "Saved Tracks" in Spotify.
+
+This application creates a new playlist with all of your Spotify saved tracks
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -74,7 +76,7 @@ HTML, CSS, JavaScript and the Electron framework were used in this project.
 
 ### Installation
 
-_Описание установки._
+Download this folder, than open a SpotyClone application: [Google drive](https://drive.google.com/drive/folders/1755C52GsOPb13xTwyNAqI1kqZctzicyu?usp=drive_link)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -83,11 +85,11 @@ _Описание установки._
 ## Roadmap
 
 - [x] Creating a layout
+- [x] - Creating a project architecture
+- [x] - Creating a communication between each part of project
 - [x] -
-- [ ] -
-- [ ] -
-- [ ] -
-    - [ ] -
-    - [ ] -
+- [x] -
+    - [x] -
+    - [x] -
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
