@@ -28,39 +28,40 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project-eng">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
+      <a href="#installation">Installation</a>
+    </li>
+    <li><a href="#roadmap">Roadmap</a></li>
+  </ol>
+    <ol>
+      <li>
+     <a href="#о-проекте-ru">О проекте</a>
+<ul>
+        <li><a href="#создан-с-использованием">Создан с использованием</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#установка">Установка</a>
+    </li>
     <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
+      </li>
+    </ol>
+
 </details>
 
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+## About The Project ENG
 
 **SpotyClone** - Application for share "Saved Tracks" in Spotify.
 
 This application creates a new playlist with all of your Spotify saved tracks
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -71,15 +72,9 @@ HTML, CSS, JavaScript and the Electron framework were used in this project.
 * ![HTML](https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=E8E8E8)
 * ![CSS](https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=E8E8E8)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 ### Installation
 
 Download this folder, than open a SpotyClone application: [Google drive](https://drive.google.com/drive/folders/1755C52GsOPb13xTwyNAqI1kqZctzicyu?usp=drive_link)
-
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ROADMAP -->
 ## Roadmap
@@ -97,3 +92,36 @@ Download this folder, than open a SpotyClone application: [Google drive](https:/
 - [x] Build project
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+## О проекте RU
+
+**SpotyClone** - Приложение для обмена "Сохраненными треками" в Spotify.
+
+Это приложение создает новый плейлист со всеми вашими сохраненными треками Spotify.
+
+### Создан с использованием
+
+В этом проекте использовались HTML, CSS, JavaScript и фреймворк Electron.
+
+* ![JavaScript](https://img.shields.io/badge/javascript-E1B133?style=for-the-badge&logo=javascript&logoColor=E8E8E8)
+* ![Electron](https://img.shields.io/badge/Electron-44C1C5?style=for-the-badge&logo=electron&logoColor=E8E8E8)
+* ![HTML](https://img.shields.io/badge/html-E34F26?style=for-the-badge&logo=html5&logoColor=E8E8E8)
+* ![CSS](https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=E8E8E8)
+
+### Установка
+
+Загрузите эту папку, затем откройте приложение SpotyClone: [Google drive](https://drive.google.com/drive/folders/1755C52GsOPb13xTwyNAqI1kqZctzicyu?usp=drive_link)
+
+## Roadmap
+
+- [x] Создание макета
+- [x] Выбор фреймворка
+- [x] Создание архитектуры проекта
+- [x] Создание локального сервера для авторизации
+- [x] Создание связи между каждой частью проекта
+- [x] Настройка HTTP-запросов
+- [x] Настройка сборки макета проекта
+- [x] Создание обработчика ошибок
+- [x] Создание проигрывателя
+- [x] Тест приложения
+- [x] Сборка проекта
