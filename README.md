@@ -86,14 +86,14 @@ Download this folder, than open a SpotyClone application: [Google drive](https:/
 
 - [x] Creating a layout
 - [x] Choosing a framework
-- [x] - Creating a project architecture
-- [x] - Creating local server for authorization
-- [x] - Creating a communication between each part of project
-- [x] - Configuring HTTP requests
-- [x] - Customization of the project layout assembly
-- [x] - Creating Error Handler
-- [x] - Creating player
-- [x] - Stress testing application
-- [x] - Build project
+- [x] Creating a project architecture
+- [x] Creating local server for authorization
+- [x] Creating a communication between each part of project
+- [x] Configuring HTTP requests
+- [x] Customization of the project layout assembly
+- [x] Creating Error Handler
+- [x] Creating player
+- [x] Stress testing application
+- [x] Build project
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
