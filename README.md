@@ -1,4 +1,5 @@
-<a name="readme-top"></a>
+[![Maintainability](https://api.codeclimate.com/v1/badges/df4cf6b0dc59ac4d0e8e/maintainability)](https://codeclimate.com/github/reden1k/SpotyClone/maintainability)<a name="readme-top"></a>
+[![Test Coverage](https://api.codeclimate.com/v1/badges/df4cf6b0dc59ac4d0e8e/test_coverage)](https://codeclimate.com/github/reden1k/SpotyClone/test_coverage)
 
 <!-- PROJECT LOGO -->
 <br />
