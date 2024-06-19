@@ -7,7 +7,7 @@ module.exports = [
     entry: './src/frontend/index.js',
     output: {
       filename: 'bundle.js',
-      path: path.resolve(__dirname, 'dist'),
+      path: path.resolve(__dirname, 'distApp'),
     },
     module: {
       rules: [
@@ -17,12 +17,12 @@ module.exports = [
           use: ['style-loader', 'css-loader']
         },
          {
-        test: /\.js$/, // Соответствует файлам с расширением .js
-        exclude: /node_modules/, // Исключает папку node_modules
+        test: /\.js$/,
+        exclude: /node_modules/, 
         use: {
-          loader: 'babel-loader', // Использует Babel для транспиляции JavaScript
+          loader: 'babel-loader', 
           options: {
-            presets: ['@babel/preset-env'] // Использует пресеты для поддержки современного JavaScript
+            presets: ['@babel/preset-env']
           }
         }
       }

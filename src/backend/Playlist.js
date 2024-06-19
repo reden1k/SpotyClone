@@ -9,10 +9,11 @@ const playlistTemplate = {
 }
 
 export class Playlist {
-    constructor(id, songs, totalSongsCount) {
+    constructor(id, songs, totalSongsCount, uri) {
         this.id = id;
         this.songs = songs;
         this.totalSongsCount = totalSongsCount;
+        this.uri = uri;
     }
 
     getId() {
@@ -27,6 +28,14 @@ export class Playlist {
         return this.totalSongsCount;
     }
 
+    getUri() {
+        return this.uri;
+    }
+
+    setUri(uri) {
+        this.uri = uri;
+    }
+
     setTotalSongsCount(count) {
         this.totalSongsCount = count;
     }
@@ -38,9 +47,8 @@ export class Playlist {
 
 export async function createPlaylist(userId, token) {
     const id = getId(await HTTP('POST', replaceUserId(endpoint.createPlaylist, userId), token, playlistTemplate));
-    const songs = await getAllCreatedPlaylistSongs(token, id);
 
-    return new Playlist(id, songs, 0);
+    return new Playlist(id, [], 0, null);
 }
 
 export async function getCreatedPlaylist(userPlaylists, token) {
@@ -50,8 +58,9 @@ export async function getCreatedPlaylist(userPlaylists, token) {
         if (playlist.name === 'SpotyClone' || playlist.description === 'SpotyClone') {
             const totalSongsCount = getTotal(playlist.tracks);
             const id = playlist.id;
+            const uri = playlist.uri;
             const songs = await getAllCreatedPlaylistSongs(totalSongsCount, token, id);
-            return new Playlist(id, songs, totalSongsCount)
+            return new Playlist(id, songs, totalSongsCount, uri)
         }
     }
     console.log(`No such playlist`)

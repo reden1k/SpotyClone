@@ -15,31 +15,14 @@ export async function execute(token) {
         await addAllTracks(user.getFavSongsCount(), user.getFavSongs(), playlist.getId(), user.getToken());
         playlist.setSongs(await getAllCreatedPlaylistSongs(user.getFavSongsCount(), user.getToken(), playlist.getId()))
     } else {
-        playlist = await getCreatedPlaylist(user.getPlaylists(), user.getToken())
+        playlist = await getCreatedPlaylist(user.getPlaylists(), user.getToken()) // СКАНИРУЕТ ТЕКУЩИЙ ПЛЕЙЛИСТ, НО НЕ ОБНОВЛЯЕТ ЕГО ЕСЛИ ЧТО ТО ИЗМЕНИЛОСЬ!
         await removeAllTracks(playlist.getTotalSongsCount(), playlist.getSongs(), playlist.getId(), user.getToken());
         await addAllTracks(user.getFavSongsCount(), user.getFavSongs(), playlist.getId(), user.getToken());
+        playlist = await getCreatedPlaylist(user.getPlaylists(), user.getToken()) //MAYBE FIXED PROBLEM UPPER
     }
     const socket = new WebSocket('ws://localhost:3000');
     socket.onopen = () => {
         socket.send(JSON.stringify({ createdPlaylist: playlist, type: 'songs' }))
         socket.close()
     };
-}
-
-export async function artistEndpointHandler(endPoint, track) { //ACCEPTING AND RESPONSING BACK
-    let artist;
-    try {
-        artist = await getArtist(endPoint, user.getToken())
-        const socket = new WebSocket('ws://localhost:3000');
-        socket.onopen = () => {
-        socket.send(JSON.stringify({ artist, track, type: 'artist' }))
-        socket.close();
-    }
-    } catch (e) {
-        const socket = new WebSocket('ws://localhost:3000');
-        socket.onopen = () => {
-        socket.send(JSON.stringify({ artist: null, track, type: 'no-artist' }))
-        socket.close();
-    }
-    }
 }

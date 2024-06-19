@@ -10,7 +10,7 @@ export class Server {
     
     static start(link) {
         if (!this.server) {
-            this.app.use(express.static('distLocal'));
+            this.app.use(express.static('resources/app/distLocal'));
             this.app.use(express.json());
             this.app.use(express.urlencoded({ extended: true })); 
             this.server = this.app.listen(this.port, () => {
