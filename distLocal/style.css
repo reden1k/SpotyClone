@@ -1,11 +1,10 @@
 @font-face {
   font-family: 'Gotham Medium';
-  src: url('source/fonts/Gotham-Medium.otf') format('opentype');
+  src: url('assets/fonts/Gotham-Medium.otf') format('opentype');
 }
 
 body {
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden;
 }
 
 .background {

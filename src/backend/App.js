@@ -1,7 +1,7 @@
 import {Server} from "./Server.js"
 import {app, BrowserWindow, ipcMain, shell, webContents } from 'electron';
 import path from 'node:path';
-import {execute, artistEndpointHandler} from './Executor.js'
+import {execute} from './Executor.js'
 import * as WebSocket from "ws";
 
 let win;
@@ -13,18 +13,16 @@ function createWindow () {
     height: 1440,
     sandbox: true,
     resizable: true,
-    icon: path.join(process.cwd(), '/dist/source/icon.png'),
+    icon: path.join(process.cwd(), 'resources', 'app', 'assets', 'icon.png'),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
       enableRemoteModule: true,
-        // preload: path.join(process.cwd(), '/dist/bundle.js')
       }
   })
   win.setMinimumSize(700, 952);
-  console.log(path.join(process.cwd(), 'src/frontend/index.js'))
-  win.loadFile(path.join(process.cwd(), 'dist/index.html'))
-  // win.setMenu(null) deleting default menu
+  win.loadFile(path.join(process.cwd(), 'resources', 'app', 'distApp', 'index.html'))
+  win.setMenu(null)
 }
 
 app.whenReady().then(() => {
@@ -53,10 +51,6 @@ ipcMain.on('open-auth-window', (event, url) => {
   Server.start(url)
 });
 
-ipcMain.on('send-endpoint', (event, object) => {
-  artistEndpointHandler(object.endPoint, object.track);
-}) 
-
 wss.on('connection', (socket) => {
   console.log('Socket connected!');
   socket.on('message', (event) => {
@@ -73,14 +67,6 @@ wss.on('connection', (socket) => {
       case 'error': 
         console.log(json)
         win.webContents.send('throw-error', json);
-        break;
-      
-      case 'artist':
-        win.webContents.send('response-artist', json);
-        break;
-
-      case 'no-artist':
-        win.webContents.send('response-artist', json);
         break;
         
       default:

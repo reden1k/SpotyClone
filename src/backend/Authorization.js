@@ -44,7 +44,7 @@ export class Authorization {
         return accessToken;
     }
 
-    static sendToken(accessToken) { // функция используется в браузере для отправки токена в приложение через socket
+    static sendToken(accessToken) {
         fetch('/receiveAuthCode', {
             method: 'POST',
             headers: {
